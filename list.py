@@ -1,6 +1,7 @@
 from game import Game
 import leet
 from concurrent.futures import ThreadPoolExecutor
+import csv
 
 leet = leet.Leet()
 games = leet.get_json()
@@ -14,7 +15,17 @@ def append_row(game):
 with ThreadPoolExecutor(max_workers=1000) as executor:
   executor.map(append_row, [game for game in games])
 
-with open('johncena141.csv', 'w') as f:
-  for magnet in rows:
-    f.write('"' + '","'.join(magnet) + '"\n')
+# Save to CSV
+with open('johncena141.csv', 'w', newline='') as csvfile:
+  writer = csv.writer(csvfile)
+  writer.writerows(rows)
 
+# Sort by date
+with open('johncena141.csv', 'r') as csvfile:
+  reader = csv.reader(csvfile)
+  rows = sorted(reader, key=lambda row: row[1], reverse=True)
+
+# Save to CSV
+with open('johncena141.csv', 'w', newline='') as csvfile:
+  writer = csv.writer(csvfile)
+  writer.writerows(rows)
