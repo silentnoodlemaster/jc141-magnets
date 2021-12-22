@@ -39,7 +39,12 @@ class Leet:
               date = datetime.now()+relativedelta(**{time_str[1]: int('-'+time_str[0])})
             except:
               date = datetime.min
-            self.items.append({"name":a.text, "url": root + a["href"], "date":date.strftime("%Y-%m-%d")})
+
+            units = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9, "TB": 10**12}
+            size = a.parent.parent.find("td", {"class": "size"}).text.split(" ")
+            size = int(float(size[0])*units[size[1][0:2]])
+
+            self.items.append({"name":a.text, "url": root + a["href"], "date":date.strftime("%Y-%m-%d"), "size":size})
     def get_pages(url):
       r = requests.get(url)
       soup = BeautifulSoup(r.text, 'html.parser')
