@@ -11,7 +11,7 @@ import cloudscraper
 class Leet:
   def __init__(self):
     cache_dir = os.path.expanduser("~/.cache/leet")
-    self.scraper = cloudscraper.create_scraper(debug=True)
+    self.scraper = cloudscraper.create_scraper()
     if not os.path.exists(cache_dir):
       os.mkdir(cache_dir)
     self.cache_file = os.path.join(cache_dir, "data.json")
@@ -27,6 +27,7 @@ class Leet:
     base = root+"/johncena141-torrents/"
     first = base+"1/"
     # r = requests.get(first)
+
     r = self.scraper.get(first)
     soup = BeautifulSoup(r.text, 'html.parser')
     last = int(soup.find("li", {"class": "last"}).a["href"].split("/")[-2])
@@ -46,7 +47,6 @@ class Leet:
             units = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9, "TB": 10**12}
             size = a.parent.parent.find("td", {"class": "size"}).text.split(" ")
             size = int(float(size[0])*units[size[1][0:2]])
-
             self.items.append({"name":a.text, "url": root + a["href"], "date":date.strftime("%Y-%m-%d"), "size":size})
     def get_pages(url):
       #r = requests.get(url)
