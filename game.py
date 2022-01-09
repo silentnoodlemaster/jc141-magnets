@@ -2,21 +2,18 @@ import requests
 from bs4 import BeautifulSoup
 from requests.models import parse_url
 from urllib.parse import urlparse
-import cloudscraper
 
 class Game:
   def __init__(self, url):
     self.url = url
     self.parse_info(self.url)
-    self.scraper = cloudscraper.create_scraper()
 
   def soup_magnet(self, href: str):
     return href.startswith('magnet:')
   
   def parse_info(self, url):
     url += '/' if not url.endswith('/') else ''
-    #r = requests.get(url)
-    r = self.scraper.get(url)
+    r = requests.get(url)
     if r.status_code != 200:
       raise Exception('Invalid url')
     soup = BeautifulSoup(r.text, 'html.parser')

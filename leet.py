@@ -6,12 +6,10 @@ import os
 from datetime import *
 from dateutil.relativedelta import *
 import time
-import cloudscraper
 
 class Leet:
   def __init__(self):
     cache_dir = os.path.expanduser("~/.cache/leet")
-    self.scraper = cloudscraper.create_scraper()
     if not os.path.exists(cache_dir):
       os.mkdir(cache_dir)
     self.cache_file = os.path.join(cache_dir, "data.json")
@@ -26,9 +24,7 @@ class Leet:
     root = "https://1337x.to"
     base = root+"/johncena141-torrents/"
     first = base+"1/"
-    # r = requests.get(first)
-
-    r = self.scraper.get(first)
+    r = requests.get(first)
     soup = BeautifulSoup(r.text, 'html.parser')
     last = int(soup.find("li", {"class": "last"}).a["href"].split("/")[-2])
     def get_page(soup):
@@ -49,8 +45,7 @@ class Leet:
             size = int(float(size[0])*units[size[1][0:2]])
             self.items.append({"name":a.text, "url": root + a["href"], "date":date.strftime("%Y-%m-%d"), "size":size})
     def get_pages(url):
-      #r = requests.get(url)
-      r = self.scraper.get(url)
+      r = requests.get(url)
       soup = BeautifulSoup(r.text, 'html.parser')
       get_page(soup)
     get_page(soup)
