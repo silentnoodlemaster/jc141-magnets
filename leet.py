@@ -45,6 +45,7 @@ class Leet:
             size = int(float(size[0])*units[size[1][0:2]])
             self.items.append({"name":a.text, "url": root + a["href"], "date":date.strftime("%Y-%m-%d"), "size":size})
     def get_pages(url):
+      print(url)
       r = requests.get(url)
       soup = BeautifulSoup(r.text, 'html.parser')
       get_page(soup)
