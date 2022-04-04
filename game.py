@@ -21,6 +21,10 @@ class Game:
       self.magnet = soup.find("a", href=self.soup_magnet)['href']
     except:
       self.magnet = ""
+    try:
+      self.hash = soup.find(class_="infohash-box").span.text
+    except:
+      self.hash = ""
     """
     container = soup.find('div', {'id': 'description'})
     try:

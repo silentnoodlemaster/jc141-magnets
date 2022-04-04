@@ -6,11 +6,11 @@ import csv
 leet = leet.Leet()
 games = leet.get_json()
 
-rows = [("name","date","size","url","magnet")]
+rows = [("name","date","size","url","magnet", "hash")]
 
 def append_row(game):
   g = Game(game["url"])
-  rows.append((game["name"],game["date"], game["size"], game["url"], g.magnet))
+  rows.append((game["name"],game["date"], game["size"], game["url"], g.magnet, g.hash))
 
 with ThreadPoolExecutor(max_workers=1000) as executor:
   executor.map(append_row, [game for game in games])
