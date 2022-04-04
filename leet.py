@@ -45,7 +45,7 @@ class Leet:
             units = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9, "TB": 10**12}
             size = a.parent.parent.find("td", {"class": "size"}).text.replace(",", "").split(" ")
             size = int(float(size[0])*units[size[1][0:2]])
-            self.items.append({"name":a.text, "url": root + a["href"], "date":date.strftime("%Y-%m-%d"), "size":size})
+            self.items.append({"name":a.text.split(" [")[0], "url": root + a["href"], "date":date.strftime("%Y-%m-%d"), "size":size})
     def get_pages(url):
       print(url)
       r = requests.get(url)
